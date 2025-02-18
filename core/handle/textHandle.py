@@ -2,7 +2,7 @@ import logging
 import json
 from core.handle.abortHandle import handleAbortMessage
 from core.handle.helloHandle import handleHelloMessage
-from core.handle.audioHandle import startToChat
+from core.handle.audioHandle import startToChat, speechToText
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +29,7 @@ async def handleTextMessage(conn, message):
             elif msg_json["state"] == "stop":
                 conn.client_have_voice = True
                 conn.client_voice_stop = True
+                await speechToText(conn)
             elif msg_json["state"] == "detect":
                 conn.asr_server_receive = False
                 conn.client_have_voice = False
